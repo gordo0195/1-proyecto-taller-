@@ -19,10 +19,23 @@ ____________________________________________
 """
 #########################BIBLIOTECAS##########################
 from tkinter import *
+import tkinter
 from tkinter import ttk
 from tkinter import messagebox
 import os
+import random
 
+lista=[]
+
+def guardar():
+    name = id_gamer.get()
+    lista.append(name + '\'t' +"Score")
+    escribir_jugador()
+    messagebox.showinfo("Guardado", "Jugador añadido a tabla de scores")
+    id_gamer.set("")
+    consultar()
+
+    
 
 #############################Cargar imagenes###################
 def cargarImg(nombre):
@@ -120,6 +133,66 @@ def ventana_juego():
     salidas: ventana de juego y todas sus dependencias
     restricciones: solo inicia desde la ventana inicial
     """
+    matriz=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+    b="0"
+    def cuadrícula(b):
+        return cuadriAux(matriz, 0, 0, b) 
+
+    def cuadriAux(matriz, n, y, b):
+        if n == 0:
+            if y <= len(matriz[n])-1:
+                matriz[n][y] = Label(frame1, text=b, bg="black", fg="white", font=("Gothic", 66), borderwidth="10", relief="groove").grid(row=n, column=y)
+                return cuadriAux(matriz, n, y+1, b)
+            else:
+                return cuadriAux(matriz, n+1, 0, b)
+            
+        elif n <= 3:
+            if y <= len(matriz[n])-1:
+                matriz[n][y] = Label(frame1, text=b, bg="black", fg="white", font=("Gothic", 66), borderwidth="10", relief="groove").grid(row=n, column=y)
+                return cuadriAux(matriz, n, y+1, b)
+            else:
+                return cuadriAux(matriz, n+1, 0, b)
+        else:
+            print("buuuuuuuuug")
+
+
+    def movimientos(a):
+        if a.bind("<Up>"):
+            print("arriba")
+
+        elif a.blind("<Down>"):
+            print("Abajo")
+            
+        elif a.blind("<Left>"):
+            print("izquierda")
+
+        elif a.blind("<Right>"):
+            print("Derecha")
+        else:
+            return movimientos(a)
+        
+            #master.bind("<Up>", self.arriba)
+            #master.blind("<Down>", self.abajo)
+            #master.blind("<Left>", self.izquierda)
+            #master.blind("<Right>", self.derecha)
+            
+        
+        
+
+    """def asigna(matriz, b):
+        i=random.randint(0, 3)
+        j=ramdom.randint(0, 3)
+        if matriz[i][j] == b:
+            matriz[i][j] = Label(frame1, text=b, bg="black", fg="white", font=("Gothic", 66), borderwidth="10", relief="groove").grid(row=n, column=y)
+            if matriz[i][j]==0:
+                matriz[i][j] = 2 
+            elif matriz[i][j]==1:
+                matriz[j][j] = 4
+            
+            else:
+                return asigno(matriz)
+        else:
+            return asigno(matriz)"""
 
     
     ventana = Toplevel()
@@ -128,29 +201,18 @@ def ventana_juego():
     ventana.resizable(width=NO, height=NO)
 
     #c_juego = Canvas(ventana, width=800, height=500, bg="white").place(x=0, y=0)
-    frame1 = Frame(ventana, width=500, height=400)
+    frame1 = Frame(ventana, width=600, height=400)
     frame1.config(cursor="pirate")             
     frame1.config(bg="lightblue")
     frame1.pack(anchor = NW)
     frame1.config(relief = "sunken", bd = "15")
-    T1=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=0, column=0)
-    T2=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=0, column=1)
-    T3=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=0, column=2)
-    T4=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=0, column=3)
-    T5=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=1, column=0)
-    T6=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=1, column=1)
-    T7=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=1, column=2)
-    T8=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=1, column=3)
-    T9=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=2, column=0)
-    T10=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=2, column=1)
-    T11=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=2, column=2)
-    T12=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=2, column=3)
-    T13=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=3, column=0)
-    T14=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=3, column=1)
-    T15=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=3, column=2)
-    T16=Label(frame1, text="0", bg="black", fg="white", font=("Gothic", 56), borderwidth="10", relief="groove").grid(row=3, column=3)
 
-    
+    cuadrícula(b)
+    #movimientos(cuadricula(b))
+    etiq=Label(ventana, text= "Juego de: ", bg="black", fg="white", font=("Gothic", 20)).place(x=500, y=20)
+    etiq1=Label(ventana, text= id_gamer.get(), bg="black", fg="white", font=("Gothic", 20)).place(x=620, y=20)
+
+
     
 root = Tk()
 #VARIABLES GLOBALES:
